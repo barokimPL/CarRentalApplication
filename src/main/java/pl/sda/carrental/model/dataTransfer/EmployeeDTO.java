@@ -22,7 +22,7 @@ public class EmployeeDTO {
     @AllArgsConstructor
     @Data
     public static class DivisionDTO {
-        private Long divisionId;
+        private Long division_id;
         private String divisionString;
     }
 }

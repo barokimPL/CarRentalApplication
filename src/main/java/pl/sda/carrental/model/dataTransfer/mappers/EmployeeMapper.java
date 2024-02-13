@@ -22,7 +22,7 @@ public class EmployeeMapper implements UserDtoMapper<Employee, EmployeeDTO> {
     @Override
     public Employee getUserClass(EmployeeDTO dto) {
         Employee employee = employeeRepository.getReferenceById(dto.getId());
-        Division division = dto.getDivisionDTO() == null ? null : divisionRepository.findById(dto.getDivisionDTO().getDivisionId()).get();
+        Division division = dto.getDivisionDTO() == null ? null : divisionRepository.findById(dto.getDivisionDTO().getDivision_id()).get();
 
         return Employee.builder()
                 .id(dto.getId())

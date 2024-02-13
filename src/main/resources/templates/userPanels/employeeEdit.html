@@ -37,9 +37,10 @@
 
         <input type="hidden" id="isActive-input" name="isActive" th:value="*{isActive}">
 
-        <input type="hidden" id="divisionId-input" name="divisionDTO.divisionId" th:field="*{divisionDTO.divisionId}" th:value="*{divisionDTO.divisionId}" />
+<!--        Risky change with name-->
+        <input type="hidden" id="division_id-input" name="division_id" th:field="*{divisionDTO.division_id}" th:value="*{divisionDTO.division_id}" />
 
-        <input type="hidden" id="divisionString-input" name="divisionDTO.divisionString" th:field="*{divisionDTO.divisionString}" th:value="*{divisionDTO.divisionString}" />
+        <input type="hidden" id="divisionString-input" name="divisionString" th:field="*{divisionDTO.divisionString}" th:value="*{divisionDTO.divisionString}" />
 
         <div class="mb-3">
             <label for="position-input" class="form-label">Position:</label>
