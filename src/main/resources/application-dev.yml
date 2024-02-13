@@ -10,3 +10,12 @@ spring:
   h2:
     console:
       enabled: true
+users:
+  admin:
+    username: 'admin'
+    name: 'Admin Nadminny'
+    email: 'admin@company.com'
+    role: 'ADMIN'
+    password: 'admin'
+
+

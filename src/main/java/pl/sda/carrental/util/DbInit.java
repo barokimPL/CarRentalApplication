@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import pl.sda.carrental.configuration.configurationProperties.AdminAccount;
 import pl.sda.carrental.model.entity.*;
 import pl.sda.carrental.model.entity.userEntities.Administrator;
 import pl.sda.carrental.model.entity.userEntities.Customer;
@@ -44,6 +45,7 @@ public class DbInit {
     private final CarRentalRepository carRentalRepository;
     private final TransactionRepository transactionRepository;
     private final RoleService roleService;
+    private final AdminAccount adminAccount;
 
 
     @PostConstruct
@@ -93,12 +95,13 @@ public class DbInit {
         roleRepository.save(customerRole);
 
         Administrator dbTestAdmin = Administrator.builder()
-                .username("admin")
-                .name("Admin Adminowy")
-                .email("admin@test.pl")
+                .username(adminAccount.getUsername())
+                .name(adminAccount.getName())
+                .email(adminAccount.getEmail())
                 .role(adminRole)
-                .password(passwordEncoder
-                .encode("admin"))
+                .password(passwordEncoder.encode(adminAccount.getPassword()))
+//                .role(roleRepository.findByRoleName(PrincipalRole.valueOf(adminAccount.getRole()).name()).get())
+                .role(roleRepository.findByRoleName(adminAccount.getRole()).get())
                 .build();
 
         administratorRepository.save(dbTestAdmin);
