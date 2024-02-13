@@ -1,7 +1,6 @@
 package pl.sda.carrental.service;
 
 import org.springframework.stereotype.Service;
-import pl.sda.carrental.model.entity.userEntities.Employee;
 import pl.sda.carrental.model.entity.userEntities.User;
 import pl.sda.carrental.model.repository.userRepositories.AdministratorRepository;
 import pl.sda.carrental.model.repository.userRepositories.CustomerRepository;

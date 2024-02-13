@@ -2,13 +2,16 @@ package pl.sda.carrental.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import pl.sda.carrental.model.entity.Reservation;
-import pl.sda.carrental.model.repository.CarRepository;
-import pl.sda.carrental.model.repository.ReservationRepository;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import pl.sda.carrental.model.dataTransfer.CarDTO;
 import pl.sda.carrental.model.dataTransfer.DivisionDTO;
 import pl.sda.carrental.model.dataTransfer.ReservationDTO;
+import pl.sda.carrental.model.entity.Reservation;
+import pl.sda.carrental.model.repository.CarRepository;
+import pl.sda.carrental.model.repository.ReservationRepository;
 import pl.sda.carrental.service.CustomUserDetailsService;
 import pl.sda.carrental.service.ReservationService;
 

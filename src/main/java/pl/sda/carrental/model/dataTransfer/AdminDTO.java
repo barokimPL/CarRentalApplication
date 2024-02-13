@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.sda.carrental.model.entity.userEntities.Role;
 
-import java.util.Set;
-
 @Getter
 @Setter
 @Builder

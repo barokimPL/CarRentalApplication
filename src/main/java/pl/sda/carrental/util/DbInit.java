@@ -13,7 +13,10 @@ import pl.sda.carrental.model.entity.userEntities.Customer;
 import pl.sda.carrental.model.entity.userEntities.Employee;
 import pl.sda.carrental.model.entity.userEntities.Role;
 import pl.sda.carrental.model.repository.*;
-import pl.sda.carrental.model.repository.userRepositories.*;
+import pl.sda.carrental.model.repository.userRepositories.AdministratorRepository;
+import pl.sda.carrental.model.repository.userRepositories.CustomerRepository;
+import pl.sda.carrental.model.repository.userRepositories.EmployeeRepository;
+import pl.sda.carrental.model.repository.userRepositories.RoleRepository;
 import pl.sda.carrental.security.PrincipalRole;
 import pl.sda.carrental.service.RoleService;
 

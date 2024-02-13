@@ -1,7 +1,8 @@
 package pl.sda.carrental.model.dataTransfer.mappers;
 
-import pl.sda.carrental.model.entity.Reservation;
 import pl.sda.carrental.model.dataTransfer.ReservationDTO;
+import pl.sda.carrental.model.entity.Reservation;
+
 import java.util.ArrayList;
 import java.util.List;
 public class ReservationMapper {
