@@ -1,12 +1,11 @@
 package pl.sda.carrental.service;
 
-import ch.qos.logback.core.net.server.Client;
-import org.aspectj.lang.annotation.DeclareWarning;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-import pl.sda.carrental.model.dataTransfer.mappers.EmployeeMapper;
 import pl.sda.carrental.model.entity.Division;
-import pl.sda.carrental.model.entity.userEntities.*;
+import pl.sda.carrental.model.entity.userEntities.Employee;
+import pl.sda.carrental.model.entity.userEntities.Role;
+import pl.sda.carrental.model.entity.userEntities.User;
 import pl.sda.carrental.model.repository.userRepositories.AdministratorRepository;
 import pl.sda.carrental.model.repository.userRepositories.CustomerRepository;
 import pl.sda.carrental.model.repository.userRepositories.EmployeeRepository;
@@ -14,7 +13,6 @@ import pl.sda.carrental.model.repository.userRepositories.UserRepository;
 import pl.sda.carrental.security.PrincipalRole;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserService {

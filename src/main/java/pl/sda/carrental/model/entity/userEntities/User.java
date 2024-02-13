@@ -1,7 +1,6 @@
 package pl.sda.carrental.model.entity.userEntities;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

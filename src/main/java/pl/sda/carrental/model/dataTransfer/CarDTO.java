@@ -1,6 +1,7 @@
 package pl.sda.carrental.model.dataTransfer;
 
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
 import pl.sda.carrental.model.entity.Car;
 import pl.sda.carrental.model.entity.Division;

@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import pl.sda.carrental.model.dataTransfer.CustomerDTO;
 import pl.sda.carrental.model.entity.userEntities.Customer;
 import pl.sda.carrental.model.repository.userRepositories.CustomerRepository;
-import pl.sda.carrental.service.RoleService;
 
 @Service
 public class CustomerMapper implements UserDtoMapper<Customer, CustomerDTO> {

@@ -2,7 +2,9 @@ package pl.sda.carrental.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import pl.sda.carrental.model.dataTransfer.AdminDTO;
 import pl.sda.carrental.model.dataTransfer.CustomerDTO;
 import pl.sda.carrental.model.dataTransfer.EmployeeDTO;
@@ -17,8 +19,6 @@ import pl.sda.carrental.model.repository.userRepositories.AdministratorRepositor
 import pl.sda.carrental.model.repository.userRepositories.CustomerRepository;
 import pl.sda.carrental.model.repository.userRepositories.EmployeeRepository;
 import pl.sda.carrental.service.UserService;
-
-import java.util.List;
 
 @Controller
 public class UserController {

@@ -5,7 +5,6 @@ import pl.sda.carrental.model.dataTransfer.UserDisplayDTO;
 import pl.sda.carrental.model.entity.userEntities.Employee;
 import pl.sda.carrental.model.entity.userEntities.User;
 import pl.sda.carrental.model.repository.userRepositories.EmployeeRepository;
-import pl.sda.carrental.service.DivisionService;
 import pl.sda.carrental.service.UserService;
 
 import java.util.List;

@@ -4,12 +4,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.sda.carrental.model.dataTransfer.CarDTO;
-import pl.sda.carrental.model.dataTransfer.CreateDivisionDTO;
 import pl.sda.carrental.model.dataTransfer.mappers.CarMapper;
-import pl.sda.carrental.model.entity.Address;
 import pl.sda.carrental.model.entity.Car;
-import pl.sda.carrental.model.entity.Division;
-import pl.sda.carrental.model.entity.userEntities.Employee;
 import pl.sda.carrental.model.entity.userEntities.User;
 import pl.sda.carrental.model.repository.CarRepository;
 

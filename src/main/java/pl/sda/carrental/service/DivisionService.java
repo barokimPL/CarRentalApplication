@@ -2,17 +2,13 @@ package pl.sda.carrental.service;
 
 import org.springframework.stereotype.Service;
 import pl.sda.carrental.model.dataTransfer.CreateDivisionDTO;
-import pl.sda.carrental.model.dataTransfer.mappers.EmployeeMapper;
 import pl.sda.carrental.model.entity.Address;
 import pl.sda.carrental.model.entity.Division;
 import pl.sda.carrental.model.entity.userEntities.Employee;
-import pl.sda.carrental.model.entity.userEntities.User;
 import pl.sda.carrental.model.repository.AddressRepository;
 import pl.sda.carrental.model.repository.DivisionRepository;
 import pl.sda.carrental.model.repository.userRepositories.EmployeeRepository;
-import pl.sda.carrental.model.repository.userRepositories.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

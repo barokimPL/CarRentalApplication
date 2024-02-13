@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,11 +15,8 @@ import org.springframework.stereotype.Service;
 import pl.sda.carrental.model.entity.userEntities.User;
 import pl.sda.carrental.model.repository.userRepositories.UserRepository;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter

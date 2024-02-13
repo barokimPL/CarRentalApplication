@@ -1,7 +1,9 @@
 package pl.sda.carrental.model.entity.userEntities;
 
 import jakarta.persistence.Entity;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter

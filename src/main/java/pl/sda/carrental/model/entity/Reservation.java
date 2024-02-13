@@ -2,9 +2,9 @@ package pl.sda.carrental.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.sda.carrental.model.entity.userEntities.Customer;
+
 import java.math.BigDecimal;
 import java.util.Date;
 

@@ -1,9 +1,16 @@
 package pl.sda.carrental.model.entity.userEntities;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import pl.sda.carrental.model.entity.Reservation;
+
 import java.util.ArrayList;
 import java.util.List;
 

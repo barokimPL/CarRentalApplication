@@ -1,10 +1,10 @@
 package pl.sda.carrental.model.dataTransfer;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import pl.sda.carrental.model.entity.userEntities.Employee;
 import pl.sda.carrental.model.entity.userEntities.Role;
-
-import java.util.Set;
 
 @Data
 @Builder
