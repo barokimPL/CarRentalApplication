@@ -13,7 +13,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.sda.carrental.model.dataTransfer.UserRegistrationDTO;
 import pl.sda.carrental.model.entity.userEntities.Role;
+import pl.sda.carrental.model.entity.userEntities.User;
 import pl.sda.carrental.model.repository.userRepositories.RoleRepository;
+import pl.sda.carrental.model.repository.userRepositories.UserRepository;
 import pl.sda.carrental.security.PrincipalRole;
 import pl.sda.carrental.service.UserRegistrationService;
 
@@ -21,10 +23,12 @@ import pl.sda.carrental.service.UserRegistrationService;
 public class RegistrationController implements WebMvcConfigurer {
     private final RoleRepository roleRepository;
     private final UserRegistrationService userRegistrationService;
+    private final UserRepository<User> userRepository;
 
-    public RegistrationController(RoleRepository roleRepository, UserRegistrationService userRegistrationService) {
+    public RegistrationController(RoleRepository roleRepository, UserRegistrationService userRegistrationService, UserRepository<User> userRepository) {
         this.roleRepository = roleRepository;
         this.userRegistrationService = userRegistrationService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/register")
@@ -46,6 +50,12 @@ public class RegistrationController implements WebMvcConfigurer {
     public String checkPersonInfo(@Valid @ModelAttribute("userRegistrationDTO") UserRegistrationDTO userRegistrationDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (!userRegistrationDTO.getPassword().equals(userRegistrationDTO.getRepeatPassword()))
             bindingResult.rejectValue("repeatPassword", "error.code", "Passwords are not the same");
+
+        if (userRepository.getAllEmails().contains(userRegistrationDTO.getEmail()))
+            bindingResult.rejectValue("email", "error.code", "Email already exists");
+
+        if (userRepository.getAllUsernames().contains(userRegistrationDTO.getUsername()))
+            bindingResult.rejectValue("username", "error.code", "Username already exists");
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("roles", roleRepository.findAll());
