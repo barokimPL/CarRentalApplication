@@ -25,18 +25,7 @@ public class UserRegistrationService {
         admin.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
         userRepository.save(admin);
     }
-    
-    public void registerManager(UserRegistrationDTO userRegistrationDto) {
-        Employee manager = new Employee();
-        manager.setUsername(userRegistrationDto.getUsername());
-        manager.setName(userRegistrationDto.getFirstName() + " " + userRegistrationDto.getLastName());
-        manager.setEmail(userRegistrationDto.getEmail());
-        manager.setPosition(Employee.Position.MANAGER);
-        manager.setRole(userRegistrationDto.getRole());
-        manager.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
-        userRepository.save(manager);
-    }
-    
+
     public void registerEmployee(UserRegistrationDTO userRegistrationDto) {
         Employee employee = new Employee();
         employee.setUsername(userRegistrationDto.getUsername());
