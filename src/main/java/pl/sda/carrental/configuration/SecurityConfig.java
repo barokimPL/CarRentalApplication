@@ -46,6 +46,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         authorize
                                 .requestMatchers("/register/**").permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/access-denied")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/dev/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/users/**")).hasAnyAuthority("ADMIN", "EMPLOYEE")
