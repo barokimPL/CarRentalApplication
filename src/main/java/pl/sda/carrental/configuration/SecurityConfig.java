@@ -46,6 +46,7 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers("/register/**").permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/dev/**")).permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(
                         form -> form
