@@ -42,12 +42,14 @@ public class SecurityConfig {
         http
                 .csrf(c -> c.disable())
                 .cors(c -> c.disable())
+                .exceptionHandling(e -> e.accessDeniedPage("/error/unauthorized"))
                 .authorizeHttpRequests((authorize) ->
                         authorize
                                 .requestMatchers("/register/**").permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/dev/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/users/**")).hasAnyAuthority("ADMIN", "EMPLOYEE")
+                                .requestMatchers(new AntPathRequestMatcher("/divisions/**")).hasAnyAuthority("ADMIN", "EMPLOYEE")
                                 .anyRequest().authenticated())
                 .formLogin(
                         form -> form
