@@ -109,11 +109,11 @@ public class DbInit {
         Role employeeRole = Role.builder().roleName(PrincipalRole.EMPLOYEE.name()).build();
         Role customerRole = Role.builder().roleName(PrincipalRole.CUSTOMER.name()).build();
 
-        Mono<List<Customer>> fakeCustomers = createFakeCustomers(customerRole);
-
         roleRepository.save(adminRole);
         roleRepository.save(employeeRole);
         roleRepository.save(customerRole);
+
+        Mono<List<Customer>> fakeCustomers = createFakeCustomers(customerRole);
 
         Administrator dbTestAdmin = Administrator.builder()
                 .username(adminAccount.getUsername())
@@ -259,16 +259,6 @@ public class DbInit {
 
         Date date1 = new Date();
         Date date2 = new Date();
-
-//        Reservation reservation = Reservation.builder()
-//            .rental_division(division.getAddress().getCity())
-//            .return_division(division.getAddress().getCity())
-//            .customer(customer)
-//            .car(car)
-//            .reservation_start(date1)
-//            .reservation_end(date2)
-//            .cost(new BigDecimal("20.50"))
-//            .build();
 
         Reservation dbTestReservation = Reservation.builder()
                 .rental_division(division.getAddress().getCity())

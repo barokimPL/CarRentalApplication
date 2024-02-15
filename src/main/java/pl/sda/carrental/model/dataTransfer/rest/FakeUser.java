@@ -2,7 +2,6 @@ package pl.sda.carrental.model.dataTransfer.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import pl.sda.carrental.model.entity.Address;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
