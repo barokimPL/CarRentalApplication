@@ -42,7 +42,6 @@ public class DivisionController {
     @GetMapping("/divisions/{division_id}")
     public String editDivision(Model model, @PathVariable long division_id) {
         DivisionDTOForPanel divisionDTO = divisionMapper.getDivisionDTO(divisionRepository.findById(division_id).get());
-//        List<Address> addresses = new ArrayList<>();
         List<Address> addresses = new ArrayList<>();
         addresses.add(divisionDTO.getAddress());
         addresses.addAll(addressRepository.findAllUnusedAddresses());
@@ -74,7 +73,7 @@ public class DivisionController {
         divisionService.removeEmployee(division, employee);
         return "redirect:/divisions/" + division_id;
     }
-    @PostMapping("/employeeSelection")
+    @PostMapping("/divisions/employeeSelection")
     public String addEmployeesToDivision(@RequestParam(value = "selectedUsers", required = false) List<Long> selectedUserIds, @RequestParam Long division_id) {
         Division division = divisionRepository.getReferenceById(division_id);
         List<Employee> employees = employeeRepository.findAllById(selectedUserIds);
@@ -82,7 +81,7 @@ public class DivisionController {
         return "redirect:/divisions/" + division_id;
     }
 
-    @GetMapping("/employeeSelection/{division_id}")
+    @GetMapping("/divisions/employeeSelection/{division_id}")
     public String selectEmployees(Model model, @PathVariable Long division_id) {
         List<Employee> activeEmployees = employeeRepository.findAllActiveNonManagers();
         activeEmployees = activeEmployees.stream().filter(e -> e.getDivision() == null || !Objects.equals(e.getDivision().getDivision_id(), division_id)).toList();

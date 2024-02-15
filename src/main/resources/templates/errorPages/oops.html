@@ -11,7 +11,7 @@
 </head>
 <body>
 <div id="head" th:replace="~{home :: header}" ></div>
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" th:fragment="oops (message)">
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" th:fragment="oops-fragment (message)">
     <h1 class="display-4">Oops...</h1>
     <p class="lead" th:text="${message}"></p>
     <a class="navbar-brand btn btn-primary" th:href="@{/}">Take me back home!</a>

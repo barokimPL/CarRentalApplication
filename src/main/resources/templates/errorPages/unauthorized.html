@@ -13,5 +13,5 @@
 </head>
 <body>
 <div th:replace="home :: header"></div>
-<div th:replace="toBeImplemented :: oops (message = 'You are not authorized to access this.')"></div>
+<div th:replace="errorPages/oops :: oops-fragment (message = 'You are not authorized to access this.')"></div>
 </body>
