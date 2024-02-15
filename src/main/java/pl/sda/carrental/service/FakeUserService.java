@@ -3,6 +3,7 @@ package pl.sda.carrental.service;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import pl.sda.carrental.configuration.configurationProperties.ApplicationSettings;
 import pl.sda.carrental.model.dataTransfer.rest.FakeUser;
 import pl.sda.carrental.model.dataTransfer.rest.FakeUserResponse;
 import reactor.core.publisher.Flux;
@@ -10,9 +11,11 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class FakeUserService {
-        private final WebClient webclient;
+    private final WebClient webclient;
+    private final ApplicationSettings applicationSettings;
 
-    public FakeUserService() {
+    public FakeUserService(ApplicationSettings applicationSettings) {
+        this.applicationSettings = applicationSettings;
         this.webclient = WebClient.builder().baseUrl("https://dummyjson.com/users").build();
     }
 
@@ -22,6 +25,7 @@ public class FakeUserService {
 
     public Flux<FakeUserResponse> getFakeUsersResponse() {
         return this.webclient.method(HttpMethod.GET)
+                .uri("?limit=" + applicationSettings.getMaxFakeUsers())
                 .retrieve()
                 .bodyToFlux(FakeUserResponse.class);
     }
