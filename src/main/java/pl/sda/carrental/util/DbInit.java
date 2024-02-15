@@ -19,12 +19,16 @@ import pl.sda.carrental.model.repository.userRepositories.CustomerRepository;
 import pl.sda.carrental.model.repository.userRepositories.EmployeeRepository;
 import pl.sda.carrental.model.repository.userRepositories.RoleRepository;
 import pl.sda.carrental.security.PrincipalRole;
+import pl.sda.carrental.service.FakeUserService;
 import pl.sda.carrental.service.RoleService;
+import reactor.core.Disposable;
+import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.Date;
+import java.util.List;
 
 //test
 @Getter
@@ -46,11 +50,26 @@ public class DbInit {
     private final TransactionRepository transactionRepository;
     private final RoleService roleService;
     private final AdminAccount adminAccount;
+    private final FakeUserService fakeUserService;
 
 
     @PostConstruct
     private void postConstruct() {
         testDatabase();
+    }
+
+    private Mono<List<Customer>> createFakeCustomers(Role customerRole) {
+        return fakeUserService.getFakeUsers()
+               .flatMap(user -> {
+                   Customer customer = Customer.builder()
+                           .username(user.getUsername())
+                           .name(user.getFirstName() + " " + user.getLastName())
+                           .email(user.getEmail())
+                           .role(customerRole)
+                           .password(passwordEncoder.encode(user.getPassword()))
+                           .build();
+                   return Mono.just(customer);
+               }).collectList().doOnSuccess(customerRepository::saveAll);
     }
 
     private void testDatabase() {
@@ -89,6 +108,8 @@ public class DbInit {
         Role adminRole = Role.builder().roleName(PrincipalRole.ADMIN.name()).build();
         Role employeeRole = Role.builder().roleName(PrincipalRole.EMPLOYEE.name()).build();
         Role customerRole = Role.builder().roleName(PrincipalRole.CUSTOMER.name()).build();
+
+        Mono<List<Customer>> fakeCustomers = createFakeCustomers(customerRole);
 
         roleRepository.save(adminRole);
         roleRepository.save(employeeRole);
@@ -166,28 +187,6 @@ public class DbInit {
                 .role(employeeRole)
                 .build();
 
-//        Customer customer = Customer.builder()
-//            .name("Maciej Konsument")
-//            .email("maciej.konsument@gmail.com")
-//            .password(passwordEncoder.encode("klient"))
-//            .role(customerRole)
-//            .username("klient")
-//            .build();
-        /*
-        Car car = Car.builder()
-            .brand("Toyota")
-            .model("Corolla")
-            .production_year(Year.of(2020))
-            .body_type("Sedan")
-            .cost_per_day(new BigDecimal("200"))
-            .mileage(260000)
-            .color("Blue")
-            .status(Car.RentStatus.AVAILABLE)
-            .division(division)
-            .build();
-        carRepository.save(car);
-        division.addCar(car);
-        */
 
         divisionRepository.save(division);
         Car dbTestCar = Car.builder()
@@ -311,6 +310,7 @@ public class DbInit {
         dbTestCar.setReservation(dbTestReservation);
         carRepository.save(dbTestCar);
 
+        fakeCustomers.block();
         testPrint();
         System.out.println(division.getCars());
     }
