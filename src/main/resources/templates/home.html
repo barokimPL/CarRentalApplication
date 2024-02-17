@@ -49,10 +49,25 @@
     </div>
 </nav>
 <br /><br />
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to our Car Rental Company</h1>
+        <p class="lead">Discover a world of convenience and comfort with our premium car rental services. From compact cars to spacious SUVs, we have the perfect vehicle for every journey.</p>
+    </div>
 
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Our Services</h2>
+            <p>Experience hassle-free rentals with our user-friendly booking platform. Whether it's a weekend getaway or a business trip, we've got you covered.</p>
+        </div>
+        <div class="col-md-6">
+            <h2>Why Choose Us?</h2>
+            <p>Reliable vehicles, competitive prices, and exceptional customer service make us the preferred choice for car rentals. Join our satisfied customers today!</p>
+        </div>
+    </div>
+</div>
 <div class="container">
     <div class="row">
-        <img th:src="@{https://gifsec.com/wp-content/uploads/2022/09/welcome-gif-2.gif}" style="width: 50%; height: auto;">
         <span sec:authorize="hasAuthority('CUSTOMER')">
             <a th:href="reservation">Zarezerwuj samochód!</a>
         </span>
