@@ -12,7 +12,6 @@ import pl.sda.carrental.model.entity.Division;
 @AllArgsConstructor
 @SuperBuilder
 @NoArgsConstructor
-@Table(name = "Employees")
 public class Employee extends User {
 
     @Enumerated(EnumType.STRING)

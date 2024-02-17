@@ -8,5 +8,6 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "dev-settings")
 @Component
 public class ApplicationSettings {
-    private int maxFakeUsers;
+    private int maxFakeUsers = 10;
+    private boolean overrideSecurity = false;
 }

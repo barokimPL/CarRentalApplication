@@ -2,10 +2,8 @@ package pl.sda.carrental.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.sda.carrental.model.dataTransfer.CreateDivisionDTO;
 import pl.sda.carrental.model.dataTransfer.DivisionDTOForPanel;
 import pl.sda.carrental.model.dataTransfer.mappers.DivisionMapperForPanel;
@@ -17,6 +15,7 @@ import pl.sda.carrental.model.repository.AddressRepository;
 import pl.sda.carrental.model.repository.DivisionRepository;
 import pl.sda.carrental.model.repository.userRepositories.EmployeeRepository;
 import pl.sda.carrental.service.DivisionService;
+import pl.sda.carrental.service.EmployeeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +29,20 @@ public class DivisionController {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
     private final DivisionService divisionService;
+    private final EmployeeService employeeService;
 
-    public DivisionController(DivisionRepository divisionRepository, DivisionMapperForPanel divisionMapper, AddressRepository addressRepository, EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, DivisionService divisionService) {
+    public DivisionController(DivisionRepository divisionRepository, DivisionMapperForPanel divisionMapper, AddressRepository addressRepository, EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, DivisionService divisionService, EmployeeService employeeService) {
         this.divisionRepository = divisionRepository;
         this.divisionMapper = divisionMapper;
         this.addressRepository = addressRepository;
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
         this.divisionService = divisionService;
+        this.employeeService = employeeService;
+    }
+    @GetMapping("/divisions/hello-world")
+    public String helloWorld() {
+        return "home";
     }
     @GetMapping("/divisions/{division_id}")
     public String editDivision(Model model, @PathVariable long division_id) {
@@ -98,8 +103,23 @@ public class DivisionController {
     }
     @PostMapping("/divisions/new")
     public String createDevision(CreateDivisionDTO newDivision) {
+        //TODO: Rewrite this to that CreateDivisionDTO is not nested
+        if (!employeeService.canBecomeManager(newDivision.getManager().getId()))
+            throw new IllegalArgumentException("This employee cannot become manager");
+
         divisionService.createDivision(newDivision);
         return "redirect:/divisions";
+    }
+
+    @PostMapping("/divisions/new/json")
+    public String createDevisionJson(@RequestBody CreateDivisionDTO newDivision, RedirectAttributes redirectAttributes) {
+        if (!employeeService.canBecomeManager(newDivision.getManager().getId()))
+            throw new IllegalArgumentException("This employee cannot become manager");
+
+        divisionService.createDivision(newDivision);
+        return "redirect:/divisions";
+//        redirectAttributes.addFlashAttribute("newDivision", newDivision);
+//        return "forward:/divisions/new";
     }
 
 }

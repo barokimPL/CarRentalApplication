@@ -48,4 +48,11 @@ public class Division {
         this.cars.add(car);
         car.setDivision(this);
     }
+
+    public static class DivisionBuilder {
+        public DivisionBuilder manager(Employee employee) {
+            this.manager = employee;
+            return this;
+        }
+    }
 }

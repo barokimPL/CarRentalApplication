@@ -40,12 +40,14 @@ public class User {
     private boolean isActive = true;
 
 
+    public void addReservation(Reservation reservation) {
+    }
 
-    public void addReservation(Reservation reservation){}
-    public List<Reservation> getCustomerReservations(){
+    public List<Reservation> getCustomerReservations() {
         return getCustomerReservations();
     }
-    public Long getReservationIdFromUser(){
+
+    public Long getReservationIdFromUser() {
         return getReservationIdFromUser();
     }
 }

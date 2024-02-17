@@ -3,11 +3,13 @@ package pl.sda.carrental.model.dataTransfer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import pl.sda.carrental.model.entity.userEntities.Employee;
 import pl.sda.carrental.model.entity.userEntities.Role;
 
 @Data
 @Builder
+@AllArgsConstructor
 public class EmployeeDTO {
     private Long id;
     private String name;
