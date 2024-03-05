@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -76,7 +77,6 @@ public class DivisionTest {
         divisionService.addEmployees(mockDivision, testEmployee2);
         assertTrue(mockDivision.getEmployees().contains(testEmployee2));
     }
-
     @Test
     void shouldAddEmployees() {
         List<Employee> employees = new ArrayList<>(Arrays.asList(testEmployee2, testEmployee3));
@@ -88,10 +88,9 @@ public class DivisionTest {
             assertTrue(testDivision.getEmployees().contains(e));
         });
     }
-
     @Test
     void testDivisionHelloWorld() throws Exception {
-        mockMvc.perform(post("/divisions/hello-world"))
+        mockMvc.perform(get("/divisions/hello-world"))
                 .andExpect(status().isOk())
                 .andExpect(view().name(not("homes")))
                 .andExpect(view().name("home"));

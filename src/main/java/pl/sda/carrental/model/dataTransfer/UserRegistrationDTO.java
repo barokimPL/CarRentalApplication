@@ -33,7 +33,7 @@ public class UserRegistrationDTO {
     @Size(min = 6, max = 256, message = "Password should be between 6 and 256 characters")
     private String password;
 
-    @Size(min = 6, max = 256, message = "Password should be between 6 and 30 characters")
+    @Size(min = 6, max = 256, message = "Password should be between 6 and 256 characters")
     private String repeatPassword;
 
 }

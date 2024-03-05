@@ -60,6 +60,9 @@ public class ReservationService{
         BigDecimal totalCost = BigDecimal.valueOf(diff).multiply(car.getCost_per_day());
         BigDecimal insurance = BigDecimal.valueOf(diff).multiply(BigDecimal.valueOf(79));
         BigDecimal going_abroad = BigDecimal.valueOf(100);
+
+        // rev: powinna być pod to osobna metoda
+        // kwota na początku ustalona na 0 i potem w zależności od wybranych opcji dodawane są koszty
         if(reservation.isInsurance() && reservation.isGoing_abroad()){
             reservation.setCost(totalCost.add(insurance).add(going_abroad));
         }
@@ -74,12 +77,15 @@ public class ReservationService{
         }
 
         reservationRepository.save(reservation);
+        // rev: customer lub samochód powinien być właścicielem relacji
         customer.addReservation(reservation);
         car.addReservationId(reservation);
         car.setStatus(Car.RentStatus.RENTED);
+
         userRepository.save(customer);
         carRepository.save(car);
     }
+    // rev: co autor miał na myśli? Jeżeli w ogóle polimorfizm nie rozwiąże sprawy, to można pobrać customera po user_id
     public Customer UserToCustomer(User user){
         Customer customer = new Customer();
         customer.setId(user.getId());
@@ -91,6 +97,7 @@ public class ReservationService{
         return customer;
     }
 
+    // rev: YAGNI
     public void deleteReservation(){
         List<ReservationDTO> reservationsList = getListOfReservations();
         Date todayDate = new Date();
@@ -101,6 +108,7 @@ public class ReservationService{
             }
         }
     }
+
     public CarDTO getCarById(Long id) {
         Optional<Car> carOptional = carRepository.findById(id);
         if (carOptional.isPresent()) {

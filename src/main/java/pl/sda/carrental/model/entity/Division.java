@@ -23,6 +23,7 @@ public class Division {
     @OneToOne
     private Address address;
     @ToString.Exclude
+    // fetch type eager oznacza, że od razu pobierze wszystkich pracowników przy pobieraniu dywizji
     @OneToMany(mappedBy = "division", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Employee> employees = new ArrayList<>();
     @OneToMany(mappedBy = "division")

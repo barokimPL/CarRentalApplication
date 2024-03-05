@@ -42,6 +42,7 @@ public class UserService {
         JpaRepository<T, Long>  repository;
         String roleName = user.getRole().getRoleName();
 
+        // rev: this should just be an instanceof, again. Or not present at all, one service for each type of user
         if (roleName.equals(PrincipalRole.ADMIN.name())) {
             return (JpaRepository<T, Long>) administratorRepository;
         } else if (roleName.equals(PrincipalRole.EMPLOYEE.name())) {
@@ -51,6 +52,7 @@ public class UserService {
         }
     }
 
+    // rev: repozytorium użytkownika możesz użyć do zapisywania użytkownika bez konieczności sprawdzania jego typu
     public <T extends User> void saveUser(T editedUser) {
         JpaRepository<T, Long>  repository = getRepository(editedUser);
         T user = repository.findById(editedUser.getId()).get();
@@ -63,6 +65,7 @@ public class UserService {
         user.setActive(!user.isActive());
         userRepository.save(user);
 
+        // rev: this should just be an instanceof
         if (employeeRepository.existsById(userId)) {
             Employee employee = employeeRepository.findById(userId).get();
             Division division = employee.getDivision();

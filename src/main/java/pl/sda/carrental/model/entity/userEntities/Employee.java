@@ -23,6 +23,7 @@ public class Employee extends User {
 //    @OneToMany(mappedBy = "employee")
 //    private List<CarRental> carRental = new ArrayList<>();
 
+    // rev: wewnętrzne enumy zawsze są statyczne
     public enum Position {
         EMPLOYEE,
         MANAGER
