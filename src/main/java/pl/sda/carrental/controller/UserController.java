@@ -20,7 +20,10 @@ import pl.sda.carrental.model.entity.userEntities.Employee;
 import pl.sda.carrental.model.repository.userRepositories.AdministratorRepository;
 import pl.sda.carrental.model.repository.userRepositories.CustomerRepository;
 import pl.sda.carrental.model.repository.userRepositories.EmployeeRepository;
+import pl.sda.carrental.model.repository.userRepositories.UserRepository;
 import pl.sda.carrental.service.UserService;
+import pl.sda.carrental.service.UserServiceFactory;
+import pl.sda.carrental.service.UserServiceInterface;
 
 @Controller
 public class UserController {
@@ -32,9 +35,9 @@ public class UserController {
     private final CustomerMapper customerMapper;
     private final EmployeeMapper employeeMapper;
     private final AdministratorMapper administratorMapper;
+    private final UserServiceFactory userServiceFactory;
 
-    public UserController(UserService userService, EmployeeRepository employeeRepository, CustomerRepository customerRepository, AdministratorRepository administratorRepository, UserMapper userMapper, CustomerMapper customerMapper, EmployeeMapper employeeMapper, AdministratorMapper administratorMapper) {
-        this.userService = userService;
+    public UserController(EmployeeRepository employeeRepository, CustomerRepository customerRepository, AdministratorRepository administratorRepository, UserMapper userMapper, CustomerMapper customerMapper, EmployeeMapper employeeMapper, AdministratorMapper administratorMapper, UserServiceFactory userServiceFactory) {
         this.employeeRepository = employeeRepository;
         this.customerRepository = customerRepository;
         this.administratorRepository = administratorRepository;
@@ -42,15 +45,18 @@ public class UserController {
         this.customerMapper = customerMapper;
         this.employeeMapper = employeeMapper;
         this.administratorMapper = administratorMapper;
+        this.userServiceFactory = userServiceFactory;
     }
     @GetMapping("/users")
     public String goToUserPanel(Model model) {
+        UserServiceInterface userService = userServiceFactory.getUserService();
         model.addAttribute("users", userMapper.getUserDisplayDtos(userService.getAllUsers()));
         return "userPanels/userPanel";
     }
     @GetMapping("/users/user/toggle/{user_id}")
     public String toggleUserActive(@PathVariable() Long user_id) {
-        userService.toggle(user_id);
+        UserServiceInterface userService = userServiceFactory.getUserService(user_id);
+        userService.toggleIsActive(user_id);
         return "redirect:/users";
     }
     @GetMapping("/users/administrator/{user_id}")
@@ -62,6 +68,7 @@ public class UserController {
     }
     @PostMapping("/users/administrator/save")
     public  String submitEditedUser(AdminDTO adminDTO) {
+        UserServiceInterface userService = userServiceFactory.getUserService(adminDTO.getId());
         userService.saveUser(administratorMapper.getUserClass(adminDTO));
         return "redirect:/users";
     }
@@ -74,6 +81,7 @@ public class UserController {
     }
     @PostMapping("/users/customer/save")
     public  String submitEditedUser(CustomerDTO customerDTO) {
+        UserServiceInterface userService = userServiceFactory.getUserService(customerDTO.getId());
         userService.saveUser(customerMapper.getUserClass(customerDTO));
         return "redirect:/users";
     }
@@ -87,6 +95,7 @@ public class UserController {
     }
     @PostMapping("/users/employee/saves")
     public  String submitEditedEmployee(EmployeeDTO employee) {
+        UserServiceInterface userService = userServiceFactory.getUserService(employee.getId());
         userService.saveUser(employeeMapper.getUserClass(employee));
         return "redirect:/users";
     }

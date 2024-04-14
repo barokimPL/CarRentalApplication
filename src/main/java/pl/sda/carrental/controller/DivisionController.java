@@ -2,8 +2,11 @@ package pl.sda.carrental.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.sda.carrental.exception.CannotBecomeManagerException;
 import pl.sda.carrental.model.dataTransfer.CreateDivisionDTO;
 import pl.sda.carrental.model.dataTransfer.DivisionDTOForPanel;
 import pl.sda.carrental.model.dataTransfer.mappers.DivisionMapperForPanel;
@@ -88,15 +91,14 @@ public class DivisionController {
 
     @GetMapping("/divisions/employeeSelection/{division_id}")
     public String selectEmployees(Model model, @PathVariable Long division_id) {
-        List<Employee> activeEmployees = employeeRepository.findAllActiveNonManagers();
-        activeEmployees = activeEmployees.stream().filter(e -> e.getDivision() == null || !Objects.equals(e.getDivision().getDivision_id(), division_id)).toList();
-        model.addAttribute("users", activeEmployees.stream().map(employeeMapper::getDto).toList());
+        List<Employee> eligibleEmployees = employeeRepository.findAllActiveNonManagersNotInDivision(division_id);
+        model.addAttribute("users", eligibleEmployees.stream().map(employeeMapper::getDto).toList());
         model.addAttribute("division_id", division_id);
         return "divisionPanels/addEmployee";
     }
 
     @GetMapping("/divisions/new")
-    public String createDevision(Model model) {
+    public String createDivision(Model model) {
         model.addAttribute("newDivision", new CreateDivisionDTO());
         model.addAttribute("employees", employeeRepository.findAllActiveNonManagers());
         return "divisionPanels/createDivision";
@@ -111,15 +113,15 @@ public class DivisionController {
         return "redirect:/divisions";
     }
 
-    @PostMapping("/divisions/new/json")
-    public String createDevisionJson(@RequestBody CreateDivisionDTO newDivision, RedirectAttributes redirectAttributes) {
-        if (!employeeService.canBecomeManager(newDivision.getManager().getId()))
-            throw new IllegalArgumentException("This employee cannot become manager");
-
-        divisionService.createDivision(newDivision);
-        return "redirect:/divisions";
-//        redirectAttributes.addFlashAttribute("newDivision", newDivision);
-//        return "forward:/divisions/new";
-    }
+//    @PostMapping("/divisions/new/json")
+//    public String createDivisionJson(@RequestBody CreateDivisionDTO newDivision, RedirectAttributes redirectAttributes) {
+//        if (!employeeService.canBecomeManager(newDivision.getManager().getId()))
+//            throw new IllegalArgumentException("This employee cannot become manager");
+//
+//        divisionService.createDivision(newDivision);
+//        return "redirect:/divisions";
+////        redirectAttributes.addFlashAttribute("newDivision", newDivision);
+////        return "forward:/divisions/new";
+//    }
 
 }
