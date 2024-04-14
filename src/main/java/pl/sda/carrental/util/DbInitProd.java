@@ -18,9 +18,9 @@ public class DbInitProd {
     private final AdminAccount adminAccount;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository<Administrator> userRepository;
+    private final UserRepository userRepository;
 
-    public DbInitProd(AdminAccount adminAccount, RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserRepository<Administrator> userRepository) {
+    public DbInitProd(AdminAccount adminAccount, RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.adminAccount = adminAccount;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;

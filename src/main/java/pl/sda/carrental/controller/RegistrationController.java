@@ -22,9 +22,9 @@ import pl.sda.carrental.service.UserRegistrationService;
 public class RegistrationController implements WebMvcConfigurer {
     private final RoleRepository roleRepository;
     private final UserRegistrationService userRegistrationService;
-    private final UserRepository<User> userRepository;
+    private final UserRepository userRepository;
 
-    public RegistrationController(RoleRepository roleRepository, UserRegistrationService userRegistrationService, UserRepository<User> userRepository) {
+    public RegistrationController(RoleRepository roleRepository, UserRegistrationService userRegistrationService, UserRepository userRepository) {
         this.roleRepository = roleRepository;
         this.userRegistrationService = userRegistrationService;
         this.userRepository = userRepository;

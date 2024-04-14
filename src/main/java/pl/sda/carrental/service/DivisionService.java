@@ -1,6 +1,7 @@
 package pl.sda.carrental.service;
 
 import org.springframework.stereotype.Service;
+import pl.sda.carrental.exception.CannotBecomeManagerException;
 import pl.sda.carrental.model.dataTransfer.CreateDivisionDTO;
 import pl.sda.carrental.model.entity.Address;
 import pl.sda.carrental.model.entity.Division;
@@ -32,6 +33,7 @@ public class DivisionService {
         employees.forEach(e -> addEmployees(division, e));
     }
 
+    // TODO: exception on trying to remove manager
     public void removeEmployee(Division division, Employee employee) {
         division.getEmployees().remove(employee);
         employee.setDivision(null);
@@ -56,4 +58,6 @@ public class DivisionService {
         division.addEmployee(employee);
         divisionRepository.save(division);
     }
+
+
 }

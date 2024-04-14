@@ -27,7 +27,6 @@ import pl.sda.carrental.service.UserServiceInterface;
 
 @Controller
 public class UserController {
-    private final UserService userService;
     private final EmployeeRepository employeeRepository;
     private final CustomerRepository customerRepository;
     private final AdministratorRepository administratorRepository;

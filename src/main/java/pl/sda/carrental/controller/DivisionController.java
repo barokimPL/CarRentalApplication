@@ -54,7 +54,6 @@ public class DivisionController {
         addresses.add(divisionDTO.getAddress());
         addresses.addAll(addressRepository.findAllUnusedAddresses());
 
-
         model.addAttribute("division", divisionDTO);
         model.addAttribute("addresses", addresses);
         model.addAttribute("positions", Employee.Position.values());
