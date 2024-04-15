@@ -40,13 +40,17 @@ public class DivisionService {
         divisionRepository.save(division);
     }
 
-    public void createDivision(CreateDivisionDTO newDivision) {
+    public void createDivision(CreateDivisionDTO newDivision, EmployeeService employeeService) throws CannotBecomeManagerException {
         Address address = Address.builder()
                 .address(newDivision.getAddress())
                 .city(newDivision.getCity())
                 .state(newDivision.getState()).build();
         Employee employee = employeeRepository.findById(newDivision.getManager().getId()).get();
 
+        // TODO This could actually just be a jakarta validation
+        if (!employeeService.canBecomeManager(employee)) {
+            throw new CannotBecomeManagerException("Chosen employee cannot become a manager.");
+        }
         addressRepository.save(address);
 
         Division division = Division.builder()
@@ -55,6 +59,8 @@ public class DivisionService {
                 .build();
 
         divisionRepository.save(division);
+        //TODO why are we first adding a manager, and then adding him as en employee?
+        //Probably something to do with relation between entities, but still, to be fixed.
         division.addEmployee(employee);
         divisionRepository.save(division);
     }

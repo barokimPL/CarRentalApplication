@@ -3,9 +3,8 @@ package pl.sda.carrental.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.sda.carrental.exception.CannotBecomeManagerException;
 import pl.sda.carrental.model.dataTransfer.CreateDivisionDTO;
 import pl.sda.carrental.model.dataTransfer.DivisionDTOForPanel;
@@ -22,7 +21,6 @@ import pl.sda.carrental.service.EmployeeService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class DivisionController {
@@ -51,6 +49,7 @@ public class DivisionController {
     public String editDivision(Model model, @PathVariable long division_id) {
         DivisionDTOForPanel divisionDTO = divisionMapper.getDivisionDTO(divisionRepository.findById(division_id).get());
         List<Address> addresses = new ArrayList<>();
+        //TODO the adresses should be completely editable, not just chosen from a list of existing ones. !IMPORTANT
         addresses.add(divisionDTO.getAddress());
         addresses.addAll(addressRepository.findAllUnusedAddresses());
 
@@ -90,7 +89,7 @@ public class DivisionController {
 
     @GetMapping("/divisions/employeeSelection/{division_id}")
     public String selectEmployees(Model model, @PathVariable Long division_id) {
-        List<Employee> eligibleEmployees = employeeRepository.findAllActiveNonManagersNotInDivision(division_id);
+        List<Employee> eligibleEmployees = employeeRepository.findAllActiveNonManagersNotInThisDivision(division_id);
         model.addAttribute("users", eligibleEmployees.stream().map(employeeMapper::getDto).toList());
         model.addAttribute("division_id", division_id);
         return "divisionPanels/addEmployee";
@@ -103,15 +102,19 @@ public class DivisionController {
         return "divisionPanels/createDivision";
     }
     @PostMapping("/divisions/new")
-    public String createDevision(CreateDivisionDTO newDivision) {
-        //TODO: Rewrite this to that CreateDivisionDTO is not nested
-        if (!employeeService.canBecomeManager(newDivision.getManager().getId()))
-            throw new IllegalArgumentException("This employee cannot become manager");
-
-        divisionService.createDivision(newDivision);
+    public String createDevision(@ModelAttribute("newDivision") CreateDivisionDTO newDivision, BindingResult bindingResult, Model model) {
+        //TODO write a unit test for that
+        try {
+            divisionService.createDivision(newDivision, employeeService);
+        } catch (CannotBecomeManagerException exc) {
+            model.addAttribute("employees", employeeRepository.findAllActiveNonManagers());
+            bindingResult.addError(new FieldError("manager", "manager", "This employee cannot become a manager. "));
+            return "divisionPanels/createDivision";
+        }
         return "redirect:/divisions";
     }
 
+    // TODO this was just added for testing because MVC didn't work with thymeleaf
 //    @PostMapping("/divisions/new/json")
 //    public String createDivisionJson(@RequestBody CreateDivisionDTO newDivision, RedirectAttributes redirectAttributes) {
 //        if (!employeeService.canBecomeManager(newDivision.getManager().getId()))

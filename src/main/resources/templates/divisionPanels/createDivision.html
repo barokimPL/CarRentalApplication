@@ -12,6 +12,11 @@
 <body>
 <div id="head" th:replace="~{home :: header}"></div>
 <div class="container">
+    <div th:if="${#fields.hasErrors('newDivision')}">
+        <div class="alert alert-danger" th:each="err : ${#fields.errors('newDivision')}" th:text="${err}">
+            Error message
+        </div>
+    </div>
     <h1 class="display-8">Create Division</h1>
     <form th:action="@{/divisions/new}" th:method="post" th:object="${newDivision}" class="needs-validation">
         <div class="mb-3">
@@ -31,6 +36,7 @@
             <select id="manager-input" name="manager" class="form-select" th:field="*{manager}">
                 <option th:each="e : ${employees}" th:value="${e.id}" th:text="${e.name}"></option>
             </select>
+            <p class="text-danger" th:if="${#fields.hasErrors('manager')}" th:errors="*{manager}"> Manager error </p>
         </div>
         <button type="submit" class="btn btn-primary">Create Division</button>
     </form>
