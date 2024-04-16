@@ -3,6 +3,7 @@ package pl.sda.carrental.model.dataTransfer.mappers;
 import org.springframework.stereotype.Service;
 import pl.sda.carrental.model.dataTransfer.DivisionDTOForPanel;
 import pl.sda.carrental.model.dataTransfer.EmployeeDTO;
+import pl.sda.carrental.model.entity.Address;
 import pl.sda.carrental.model.entity.Division;
 import pl.sda.carrental.model.repository.DivisionRepository;
 
@@ -30,10 +31,14 @@ public class DivisionMapperForPanel {
 
     public Division getDivisionObject(DivisionDTOForPanel divisionDTO) {
         Division division = divisionRepository.findById(divisionDTO.getDivision_id()).get();
+        Address address = division.getAddress();
+        address.setCity(divisionDTO.getCity());
+        address.setState(divisionDTO.getState());
+        address.setStreet(divisionDTO.getStreet());
 
         return Division.builder()
             .division_id(divisionDTO.getDivision_id())
-            .address(divisionDTO.getAddress())
+            .address(address)
             .employees(division.getEmployees())
             .cars(division.getCars())
             .manager(employeeMapper.getUserClass(divisionDTO.getManager()))

@@ -74,17 +74,17 @@ public class DbInit {
 
     private void testDatabase() {
         Address address = Address.builder()
-                .address("Testowa 12")
+                .street("Testowa 12")
                 .state("Łódzkie")
                 .city("Łódź")
                 .build();
         Address address_2 = Address.builder()
-                .address("Pod testami 18")
+                .street("Pod testami 18")
                 .state("Wielkopolskie")
                 .city("Poznań")
                 .build();
         Address address_3 = Address.builder()
-                .address("Dj'a tiestio 15")
+                .street("Dj'a tiestio 15")
                 .state("Kujawsko-Pomorskie")
                 .city("Bydgoszcz")
                 .build();

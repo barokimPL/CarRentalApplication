@@ -17,12 +17,12 @@ public class Address {
     @Column(nullable = false)
     private String city;
     @Column(nullable = false)
-    private String address;
+    private String street;
     @Column(nullable = false)
     private String state;
 
     public String toString() {
-        return city + ", " + address + " (" + state + ")";
+        return city + ", " + street + " (" + state + ")";
     }
 
 }

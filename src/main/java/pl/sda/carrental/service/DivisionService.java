@@ -42,7 +42,7 @@ public class DivisionService {
 
     public void createDivision(CreateDivisionDTO newDivision, EmployeeService employeeService) throws CannotBecomeManagerException {
         Address address = Address.builder()
-                .address(newDivision.getAddress())
+                .street(newDivision.getAddress())
                 .city(newDivision.getCity())
                 .state(newDivision.getState()).build();
         Employee employee = employeeRepository.findById(newDivision.getManager().getId()).get();

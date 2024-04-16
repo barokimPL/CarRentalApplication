@@ -26,16 +26,14 @@ import java.util.List;
 public class DivisionController {
     private final DivisionRepository divisionRepository;
     private final DivisionMapperForPanel divisionMapper;
-    private final AddressRepository addressRepository;
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
     private final DivisionService divisionService;
     private final EmployeeService employeeService;
 
-    public DivisionController(DivisionRepository divisionRepository, DivisionMapperForPanel divisionMapper, AddressRepository addressRepository, EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, DivisionService divisionService, EmployeeService employeeService) {
+    public DivisionController(DivisionRepository divisionRepository, DivisionMapperForPanel divisionMapper, EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, DivisionService divisionService, EmployeeService employeeService) {
         this.divisionRepository = divisionRepository;
         this.divisionMapper = divisionMapper;
-        this.addressRepository = addressRepository;
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
         this.divisionService = divisionService;
@@ -48,19 +46,15 @@ public class DivisionController {
     @GetMapping("/divisions/{division_id}")
     public String editDivision(Model model, @PathVariable long division_id) {
         DivisionDTOForPanel divisionDTO = divisionMapper.getDivisionDTO(divisionRepository.findById(division_id).get());
-        List<Address> addresses = new ArrayList<>();
-        //TODO the adresses should be completely editable, not just chosen from a list of existing ones. !IMPORTANT
-        addresses.add(divisionDTO.getAddress());
-        addresses.addAll(addressRepository.findAllUnusedAddresses());
 
         model.addAttribute("division", divisionDTO);
-        model.addAttribute("addresses", addresses);
         model.addAttribute("positions", Employee.Position.values());
         return "divisionPanels/divisionEdit";
     }
     @PostMapping("/divisions/edit/save")
     public String saveDivision(DivisionDTOForPanel divisionDTO) {
-        divisionRepository.save(divisionMapper.getDivisionObject(divisionDTO));
+        Division division = divisionMapper.getDivisionObject(divisionDTO);
+        divisionRepository.save(division);
         return "redirect:/divisions/" + divisionDTO.getDivision_id();
     }
     @GetMapping("/divisions")

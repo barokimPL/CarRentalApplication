@@ -27,7 +27,7 @@
     <tr th:if="${divisions.isEmpty()}"><td colspan="3"> No divisions available. Which is impossible, so something went wrong dog.</td></tr>
     <tr th:each="division : ${divisions}">
         <td><span th:text="${division.toString()}"></span> </td>
-        <td><span th:text="${division.getAddress()}"></span> </td>
+        <td><span th:text="${division.getStreet()}"></span> </td>
         <td><span th:text="${division.getManager().getName()}"></span> </td>
         <td><a th:text="Manage" th:href="'/divisions/' + *{division.getDivision_id()}"></a> </td>
         <!--        TODO: Add a button to deactivate division - frees up all the workers in it and changes isActive flag on division -->
