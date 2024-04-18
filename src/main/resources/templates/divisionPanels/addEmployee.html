@@ -29,9 +29,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:if="${users.isEmpty()}"><td colspan="5"> No users available. Which is impossible, so something went wrong dog.</td></tr>
+            <tr th:if="${users.isEmpty()}"><td colspan="4"> No users available. Which is impossible, so something went wrong dog.</td></tr>
             <tr th:each="user : ${users}">
-                <td><input type="checkbox" th:name="'selectedUsers'" th:value="${user.id}" /></td>
+                <td><input type="checkbox" class="user-checkbox" th:name="'selectedUsers'" th:value="${user.id}" onchange="checkCheckboxes()" /></td>
                 <td><span th:text="*{user.getName()}"> Name </span> </td>
                 <td><span th:text="${user.getEmail()}"> Mail </span> </td>
                 <td><span th:text="${user.getUsername()}"> Username </span> </td>
@@ -39,7 +39,15 @@
             </tbody>
         </table>
         <input type="hidden" th:value="${division_id}" name="division_id">
-        <button type="submit" class="btn btn-primary" th:unless="${users.isEmpty()}">Select these employees</button>
+        <button type="submit" class="btn btn-primary" disabled id="submit-btn" th:unless="${users.isEmpty()}">Select these employees</button>
     </form>
+    <script>
+        function checkCheckboxes() {
+            var checkboxes = document.querySelectorAll('.user-checkbox');
+            var submitBtn = document.getElementById('submit-btn');
+            var isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+            submitBtn.disabled = !isChecked;
+        }
+    </script>
 </div>
 </body>
