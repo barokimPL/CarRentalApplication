@@ -11,21 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import pl.sda.carrental.controller.DivisionController;
+import pl.sda.carrental.constructs.division.DivisionController;
+import pl.sda.carrental.constructs.division.exceptions.EmployeeIsManager;
 import pl.sda.carrental.model.dataTransfer.CreateDivisionDTO;
 import pl.sda.carrental.model.dataTransfer.EmployeeDTO;
-import pl.sda.carrental.model.entity.Division;
+import pl.sda.carrental.constructs.division.Division;
 import pl.sda.carrental.model.entity.userEntities.Employee;
 import pl.sda.carrental.model.repository.DivisionRepository;
 import pl.sda.carrental.model.repository.userRepositories.EmployeeRepository;
-import pl.sda.carrental.service.DivisionService;
+import pl.sda.carrental.constructs.division.DivisionService;
 import pl.sda.carrental.service.EmployeeService;
 
 import java.util.ArrayList;
@@ -67,18 +67,18 @@ public class DivisionTest {
     }
 
     @Test
-    void shouldAddEmployee() {
+    void shouldAddEmployee() throws EmployeeIsManager {
         List<Division> mockDivisions = new ArrayList<>();
         mockDivisions.add(testDivision);
         Mockito.when(divisionRepository.findAll()).thenReturn(mockDivisions);
 
         List<Division> divisions = divisionRepository.findAll();
         Division mockDivision = divisions.get(0);
-        divisionService.addEmployees(mockDivision, testEmployee2);
+        divisionService.addEmployee(mockDivision, testEmployee2);
         assertTrue(mockDivision.getEmployees().contains(testEmployee2));
     }
     @Test
-    void shouldAddEmployees() {
+    void shouldAddEmployees() throws EmployeeIsManager {
         List<Employee> employees = new ArrayList<>(Arrays.asList(testEmployee2, testEmployee3));
         employees.forEach(e -> {
             Assertions.assertFalse(testDivision.getEmployees().contains(e));

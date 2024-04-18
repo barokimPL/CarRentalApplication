@@ -1,10 +1,9 @@
-package pl.sda.carrental.model.dataTransfer.mappers;
+package pl.sda.carrental.constructs.division;
 
 import org.springframework.stereotype.Service;
-import pl.sda.carrental.model.dataTransfer.DivisionDTOForPanel;
 import pl.sda.carrental.model.dataTransfer.EmployeeDTO;
+import pl.sda.carrental.model.dataTransfer.mappers.EmployeeMapper;
 import pl.sda.carrental.model.entity.Address;
-import pl.sda.carrental.model.entity.Division;
 import pl.sda.carrental.model.repository.DivisionRepository;
 
 import java.util.List;

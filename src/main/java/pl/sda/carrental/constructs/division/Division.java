@@ -1,8 +1,12 @@
-package pl.sda.carrental.model.entity;
+package pl.sda.carrental.constructs.division;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import pl.sda.carrental.model.entity.Address;
+import pl.sda.carrental.model.entity.Car;
 import pl.sda.carrental.model.entity.userEntities.Employee;
+import pl.sda.carrental.model.repository.userRepositories.EmployeeRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +38,7 @@ public class Division {
     private Employee manager;
 
 
-    public void addEmployee(Employee employee) {
+    void addEmployee(Employee employee) {
         if (this.employees == null) {
             this.employees = new ArrayList<>();
         }

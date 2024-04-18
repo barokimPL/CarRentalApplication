@@ -18,7 +18,6 @@ import java.util.List;
 @DiscriminatorColumn(name = "user_type")
 @Table(name = "Users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

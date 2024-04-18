@@ -1,7 +1,4 @@
-package pl.sda.carrental.model.dataTransfer.mappers;
-
-import pl.sda.carrental.model.dataTransfer.DivisionDTO;
-import pl.sda.carrental.model.entity.Division;
+package pl.sda.carrental.constructs.division;
 
 import java.util.ArrayList;
 import java.util.List;

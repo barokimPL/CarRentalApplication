@@ -1,9 +1,10 @@
-package pl.sda.carrental.model.dataTransfer;
+package pl.sda.carrental.constructs.division;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.sda.carrental.model.dataTransfer.EmployeeDTO;
 import pl.sda.carrental.model.entity.Address;
 
 import java.util.List;

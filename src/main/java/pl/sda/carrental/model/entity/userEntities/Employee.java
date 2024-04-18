@@ -3,7 +3,7 @@ package pl.sda.carrental.model.entity.userEntities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import pl.sda.carrental.model.entity.Division;
+import pl.sda.carrental.constructs.division.Division;
 
 @Entity
 @Getter

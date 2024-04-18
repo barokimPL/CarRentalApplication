@@ -1,7 +1,9 @@
 package pl.sda.carrental.service;
 
 import org.springframework.stereotype.Service;
-import pl.sda.carrental.model.entity.Division;
+import pl.sda.carrental.constructs.division.DivisionService;
+import pl.sda.carrental.constructs.division.Division;
+import pl.sda.carrental.constructs.division.exceptions.EmployeeIsManager;
 import pl.sda.carrental.model.entity.userEntities.Employee;
 import pl.sda.carrental.model.repository.userRepositories.EmployeeRepository;
 import pl.sda.carrental.model.repository.userRepositories.UserRepository;

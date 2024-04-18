@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.sda.carrental.configuration.configurationProperties.AdminAccount;
+import pl.sda.carrental.constructs.division.Division;
+import pl.sda.carrental.constructs.division.DivisionService;
+import pl.sda.carrental.constructs.division.exceptions.EmployeeIsManager;
 import pl.sda.carrental.model.entity.*;
 import pl.sda.carrental.model.entity.userEntities.Administrator;
 import pl.sda.carrental.model.entity.userEntities.Customer;
@@ -21,7 +24,6 @@ import pl.sda.carrental.model.repository.userRepositories.RoleRepository;
 import pl.sda.carrental.security.PrincipalRole;
 import pl.sda.carrental.service.FakeUserService;
 import pl.sda.carrental.service.RoleService;
-import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
@@ -51,6 +53,7 @@ public class DbInit {
     private final RoleService roleService;
     private final AdminAccount adminAccount;
     private final FakeUserService fakeUserService;
+    private final DivisionService divisionService;
 
 
     @PostConstruct
@@ -241,10 +244,11 @@ public class DbInit {
                 .build();
         carRepository.save(dbTestCar3);
 
-        division.addEmployee(dbTestEmployee);
-        division.addEmployee(employee2);
-        division2.addEmployee(employee3);
-        division2.addEmployee(employee4);
+
+        try {
+            divisionService.addEmployees(division, List.of(dbTestEmployee, employee2));
+            divisionService.addEmployees(division2, List.of(employee3, employee4));
+        } catch (EmployeeIsManager ignore) {}
 
         employeeRepository.save(dbTestEmployee);
         employeeRepository.save(employee2);
@@ -293,7 +297,12 @@ public class DbInit {
                 .build();
         transactionRepository.save(dbTestTransaction);
 
-        division.addEmployee(dbTestEmployee);
+        try {
+            divisionService.addEmployee(division, dbTestEmployee);
+        } catch (EmployeeIsManager exc) {
+            //Just don't add him
+        }
+
         division.addCar(dbTestCar);
         divisionRepository.save(division);
 

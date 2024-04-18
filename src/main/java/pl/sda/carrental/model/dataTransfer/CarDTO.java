@@ -4,7 +4,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
 import pl.sda.carrental.model.entity.Car;
-import pl.sda.carrental.model.entity.Division;
+import pl.sda.carrental.constructs.division.Division;
 import pl.sda.carrental.model.entity.Reservation;
 
 import java.math.BigDecimal;

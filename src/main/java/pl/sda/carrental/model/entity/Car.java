@@ -2,6 +2,7 @@ package pl.sda.carrental.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import pl.sda.carrental.constructs.division.Division;
 
 import java.math.BigDecimal;
 import java.time.Year;

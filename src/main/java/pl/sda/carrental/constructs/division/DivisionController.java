@@ -1,25 +1,19 @@
-package pl.sda.carrental.controller;
+package pl.sda.carrental.constructs.division;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import pl.sda.carrental.constructs.division.exceptions.EmployeeIsManager;
 import pl.sda.carrental.exception.CannotBecomeManagerException;
 import pl.sda.carrental.model.dataTransfer.CreateDivisionDTO;
-import pl.sda.carrental.model.dataTransfer.DivisionDTOForPanel;
-import pl.sda.carrental.model.dataTransfer.mappers.DivisionMapperForPanel;
 import pl.sda.carrental.model.dataTransfer.mappers.EmployeeMapper;
-import pl.sda.carrental.model.entity.Address;
-import pl.sda.carrental.model.entity.Division;
 import pl.sda.carrental.model.entity.userEntities.Employee;
-import pl.sda.carrental.model.repository.AddressRepository;
 import pl.sda.carrental.model.repository.DivisionRepository;
 import pl.sda.carrental.model.repository.userRepositories.EmployeeRepository;
-import pl.sda.carrental.service.DivisionService;
 import pl.sda.carrental.service.EmployeeService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -70,14 +64,21 @@ public class DivisionController {
         Division division = divisionRepository.getReferenceById(division_id);
         Employee employee = employeeRepository.getReferenceById(employee_id);
 
-        divisionService.removeEmployee(division, employee);
+        try {
+            divisionService.removeEmployee(division, employee);
+        } catch (EmployeeIsManager ignore) { }
+
         return "redirect:/divisions/" + division_id;
     }
     @PostMapping("/divisions/employeeSelection")
     public String addEmployeesToDivision(@RequestParam(value = "selectedUsers", required = false) List<Long> selectedUserIds, @RequestParam Long division_id) {
         Division division = divisionRepository.getReferenceById(division_id);
         List<Employee> employees = employeeRepository.findAllById(selectedUserIds);
-        divisionService.addEmployees(division,employees);
+        //TODO Handle that, show a message to user
+        try {
+            divisionService.addEmployees(division,employees);
+        } catch (EmployeeIsManager ignore) {System.out.println("Couldn't add some employees");}
+
         return "redirect:/divisions/" + division_id;
     }
 

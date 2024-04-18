@@ -1,4 +1,4 @@
-package pl.sda.carrental.model.dataTransfer;
+package pl.sda.carrental.constructs.division;
 
 import lombok.Data;
 import pl.sda.carrental.model.entity.Address;
