@@ -20,7 +20,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("SELECT e FROM Employee e where e.isActive = True and e.id not in (select manager.id from Division)")
     List<Employee> findAllActiveNonManagers();
 
-    @Query("SELECT e FROM Employee e where e.isActive = True and (e.division.division_id <> :divisionId or e.division is null)")
+    @Query("SELECT e FROM Employee e where e.isActive = True and (e.division.division_id <> :divisionId or e.division is null) and e not in (select manager from Division)")
     List<Employee> findAllActiveNonManagersNotInThisDivision(Long divisionId);
 
     @Query("SELECT case when count(e) > 0 then true else false end FROM Employee e where e.id = :employee_id and e.id in (select manager.id from Division)")
