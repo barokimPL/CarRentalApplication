@@ -44,8 +44,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
     
     public User findByUsernameOrEmail(String username) {
-        return userRepository.findByUsernameOrEmail(username, username).orElseThrow(() ->
-                new IllegalArgumentException("Username does not exist")
-        );
+        return userRepository.findByUsernameOrEmail(username, username).get();
     }
 }
