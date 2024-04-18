@@ -3,7 +3,7 @@ package pl.sda.carrental.service;
 import org.springframework.stereotype.Service;
 import pl.sda.carrental.constructs.division.DivisionService;
 import pl.sda.carrental.constructs.division.Division;
-import pl.sda.carrental.constructs.division.exceptions.EmployeeIsManager;
+import pl.sda.carrental.exception.EmployeeIsManager;
 import pl.sda.carrental.model.entity.userEntities.Employee;
 import pl.sda.carrental.model.repository.userRepositories.EmployeeRepository;
 import pl.sda.carrental.model.repository.userRepositories.UserRepository;
@@ -26,7 +26,11 @@ public class EmployeeService extends UserService {
     }
 
     @Override
-    public void toggleIsActive(long employeeId){
+    public void toggleIsActive(long employeeId) throws EmployeeIsManager {
+        if (employeeRepository.isManger(employeeId)) {
+            throw new EmployeeIsManager("Cannot deactivate an user that is a manager. First remove him from that position.");
+        }
+
         Employee employee = employeeRepository.findById(employeeId).get();
         employee.setActive(!employee.isActive());
         employeeRepository.save(employee);

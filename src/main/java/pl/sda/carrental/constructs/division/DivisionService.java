@@ -1,7 +1,7 @@
 package pl.sda.carrental.constructs.division;
 
 import org.springframework.stereotype.Service;
-import pl.sda.carrental.constructs.division.exceptions.EmployeeIsManager;
+import pl.sda.carrental.exception.EmployeeIsManager;
 import pl.sda.carrental.exception.CannotBecomeManagerException;
 import pl.sda.carrental.model.dataTransfer.CreateDivisionDTO;
 import pl.sda.carrental.model.entity.Address;

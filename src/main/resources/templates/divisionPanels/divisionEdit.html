@@ -14,6 +14,10 @@
 <div id="head" th:replace="~{home :: header}"></div>
 <div class="container mt-5">
     <h1 class="display-8">Division edit form</h1>
+<!--    todo This could be a fragment instead, if it's for a general error like this one -->
+    <div th:if="${error}">
+        <p class="alert alert-danger" th:text="${error}">Error placeholder</p>
+    </div>
     <form method="post" th:action="@{/divisions/edit/save}" th:object="${division}" class="needs-validation" novalidate>
 
         <input type="hidden" name="division_id" th:value="*{getDivision_id()}">

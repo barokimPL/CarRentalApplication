@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import pl.sda.carrental.constructs.division.DivisionController;
-import pl.sda.carrental.constructs.division.exceptions.EmployeeIsManager;
+import pl.sda.carrental.exception.EmployeeIsManager;
 import pl.sda.carrental.model.dataTransfer.CreateDivisionDTO;
 import pl.sda.carrental.model.dataTransfer.EmployeeDTO;
 import pl.sda.carrental.constructs.division.Division;

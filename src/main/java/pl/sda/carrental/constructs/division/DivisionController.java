@@ -3,10 +3,12 @@ package pl.sda.carrental.constructs.division;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import pl.sda.carrental.constructs.division.exceptions.EmployeeIsManager;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.sda.carrental.exception.CannotBecomeManagerException;
+import pl.sda.carrental.exception.EmployeeIsManager;
 import pl.sda.carrental.model.dataTransfer.CreateDivisionDTO;
 import pl.sda.carrental.model.dataTransfer.mappers.EmployeeMapper;
 import pl.sda.carrental.model.entity.userEntities.Employee;
@@ -38,7 +40,11 @@ public class DivisionController {
         return "home";
     }
     @GetMapping("/divisions/{division_id}")
-    public String editDivision(Model model, @PathVariable long division_id) {
+    public String editDivision(Model model, @PathVariable long division_id, RedirectAttributes redirectAttributes) {
+        if (redirectAttributes.containsAttribute("error")) {
+            Exception exception = (Exception) redirectAttributes.getAttribute("error");
+            model.addAttribute("error", exception.getMessage());
+        }
         DivisionDTOForPanel divisionDTO = divisionMapper.getDivisionDTO(divisionRepository.findById(division_id).get());
 
         model.addAttribute("division", divisionDTO);
@@ -60,34 +66,41 @@ public class DivisionController {
     }
 
     @GetMapping("/divisions/{division_id}/edit/removeEmployee/{employee_id}")
-    public String removeEmployeeFromDivision(@PathVariable Long division_id, @PathVariable Long employee_id) {
+    public String removeEmployeeFromDivision(@PathVariable Long division_id, @PathVariable Long employee_id, RedirectAttributes redirectAttributes) {
         Division division = divisionRepository.getReferenceById(division_id);
         Employee employee = employeeRepository.getReferenceById(employee_id);
-
         try {
             divisionService.removeEmployee(division, employee);
-        } catch (EmployeeIsManager ignore) { }
-
+        } catch (EmployeeIsManager exc) {
+           redirectAttributes.addFlashAttribute("error", exc) ;
+           return "redirect:/divisions/" + division_id;
+        }
         return "redirect:/divisions/" + division_id;
     }
+    @GetMapping("/divisions/employeeSelection/{division_id}")
+    public String selectEmployees(Model model, @PathVariable Long division_id, RedirectAttributes redirectAttributes) {
+        if (redirectAttributes.containsAttribute("error")) {
+            Exception exception = (Exception) redirectAttributes.getAttribute("error");
+            model.addAttribute("error", exception.getMessage());
+        }
+        List<Employee> eligibleEmployees = employeeRepository.findAllActiveNonManagersNotInThisDivision(division_id);
+        model.addAttribute("users", eligibleEmployees.stream().map(employeeMapper::getDto).toList());
+        model.addAttribute("division_id", division_id);
+        return "divisionPanels/addEmployee";
+    }
     @PostMapping("/divisions/employeeSelection")
-    public String addEmployeesToDivision(@RequestParam(value = "selectedUsers", required = false) List<Long> selectedUserIds, @RequestParam Long division_id) {
+    public String addEmployeesToDivision(@RequestParam(value = "selectedUsers", required = false) List<Long> selectedUserIds, @RequestParam Long division_id, RedirectAttributes redirectAttributes) {
         Division division = divisionRepository.getReferenceById(division_id);
         List<Employee> employees = employeeRepository.findAllById(selectedUserIds);
         //TODO Handle that, show a message to user
         try {
             divisionService.addEmployees(division,employees);
-        } catch (EmployeeIsManager ignore) {System.out.println("Couldn't add some employees");}
+        } catch (EmployeeIsManager exc) {
+            redirectAttributes.addFlashAttribute("error", exc);
+            return "redirect:/divisions/employeeSelection/" + division_id;
+        }
 
         return "redirect:/divisions/" + division_id;
-    }
-
-    @GetMapping("/divisions/employeeSelection/{division_id}")
-    public String selectEmployees(Model model, @PathVariable Long division_id) {
-        List<Employee> eligibleEmployees = employeeRepository.findAllActiveNonManagersNotInThisDivision(division_id);
-        model.addAttribute("users", eligibleEmployees.stream().map(employeeMapper::getDto).toList());
-        model.addAttribute("division_id", division_id);
-        return "divisionPanels/addEmployee";
     }
 
     @GetMapping("/divisions/new")
@@ -110,15 +123,10 @@ public class DivisionController {
     }
 
     // TODO this was just added for testing because MVC didn't work with thymeleaf
-//    @PostMapping("/divisions/new/json")
-//    public String createDivisionJson(@RequestBody CreateDivisionDTO newDivision, RedirectAttributes redirectAttributes) {
-//        if (!employeeService.canBecomeManager(newDivision.getManager().getId()))
-//            throw new IllegalArgumentException("This employee cannot become manager");
-//
-//        divisionService.createDivision(newDivision);
-//        return "redirect:/divisions";
-////        redirectAttributes.addFlashAttribute("newDivision", newDivision);
-////        return "forward:/divisions/new";
-//    }
+    @PostMapping("/divisions/new/json")
+    public String createDivisionJson(@RequestBody CreateDivisionDTO newDivision, RedirectAttributes redirectAttributes) throws CannotBecomeManagerException {
+        divisionService.createDivision(newDivision, employeeService);
+        return "redirect:/divisions";
+    }
 
 }

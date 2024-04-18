@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import pl.sda.carrental.configuration.configurationProperties.AdminAccount;
 import pl.sda.carrental.constructs.division.Division;
 import pl.sda.carrental.constructs.division.DivisionService;
-import pl.sda.carrental.constructs.division.exceptions.EmployeeIsManager;
+import pl.sda.carrental.exception.EmployeeIsManager;
 import pl.sda.carrental.model.entity.*;
 import pl.sda.carrental.model.entity.userEntities.Administrator;
 import pl.sda.carrental.model.entity.userEntities.Customer;

@@ -16,6 +16,9 @@
 <div class="userPanel">
     <form th:action="@{/divisions/employeeSelection}" method="post">
 
+        <div th:if="${error}" class="alert alert-danger">
+            <p th:text="${error}">Error placeholder</p>
+        </div>
         <table class="table">
             <thead>
             <tr>
@@ -26,10 +29,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:if="${users.isEmpty()}"><td colspan="4"> No users available. Which is impossible, so something went wrong dog.</td></tr>
+            <tr th:if="${users.isEmpty()}"><td colspan="5"> No users available. Which is impossible, so something went wrong dog.</td></tr>
             <tr th:each="user : ${users}">
                 <td><input type="checkbox" th:name="'selectedUsers'" th:value="${user.id}" /></td>
-                <td><span th:text="*{user.getName()}"> Name </span> </td>
                 <td><span th:text="*{user.getName()}"> Name </span> </td>
                 <td><span th:text="${user.getEmail()}"> Mail </span> </td>
                 <td><span th:text="${user.getUsername()}"> Username </span> </td>

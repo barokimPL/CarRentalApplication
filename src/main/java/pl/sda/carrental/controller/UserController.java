@@ -1,12 +1,11 @@
 package pl.sda.carrental.controller;
 
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import pl.sda.carrental.exception.EmployeeIsManager;
 import pl.sda.carrental.model.dataTransfer.AdminDTO;
 import pl.sda.carrental.model.dataTransfer.CustomerDTO;
 import pl.sda.carrental.model.dataTransfer.EmployeeDTO;
@@ -20,8 +19,6 @@ import pl.sda.carrental.model.entity.userEntities.Employee;
 import pl.sda.carrental.model.repository.userRepositories.AdministratorRepository;
 import pl.sda.carrental.model.repository.userRepositories.CustomerRepository;
 import pl.sda.carrental.model.repository.userRepositories.EmployeeRepository;
-import pl.sda.carrental.model.repository.userRepositories.UserRepository;
-import pl.sda.carrental.service.UserService;
 import pl.sda.carrental.service.UserServiceFactory;
 import pl.sda.carrental.service.UserServiceInterface;
 
@@ -53,7 +50,7 @@ public class UserController {
         return "userPanels/userPanel";
     }
     @GetMapping("/users/user/toggle/{user_id}")
-    public String toggleUserActive(@PathVariable() Long user_id) {
+    public String toggleUserActive(@PathVariable() Long user_id) throws EmployeeIsManager {
         UserServiceInterface userService = userServiceFactory.getUserService(user_id);
         userService.toggleIsActive(user_id);
         return "redirect:/users";
